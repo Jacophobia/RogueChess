@@ -3,14 +3,6 @@
 
 #include "Game/Game.h"
 
-void game_loop()
-{
-    while (true)
-    {
-        
-    }
-}
-
 int main(int argc, char* argv[])
 {
     std::cout << "Welcome to RogueChess!" << '\n';
