@@ -24,3 +24,13 @@ std::tuple<bool, Piece*> Board::try_get_piece(int x, int y)
         
     return squares[x][y].try_get_piece();
 }
+
+void Board::increment_turn()
+{
+    for (std::vector<Square> square_column : squares)
+    for (Square square : square_column)
+    {
+        square.increment_turn();
+    }
+
+}

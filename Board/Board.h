@@ -10,7 +10,7 @@ class Board
 {
 public:
     std::tuple<bool, Piece*> try_get_piece(int x, int y);
+    void increment_turn();
 private:
     std::vector<std::vector<Square>> squares;
-    
 };
