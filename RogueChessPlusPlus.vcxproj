@@ -173,6 +173,7 @@
     <ClInclude Include="Move\PotentialMove.h" />
     <ClInclude Include="Move\ValidMove.h" />
     <ClInclude Include="OpponentFactory\OpponentFactory.h" />
+    <ClInclude Include="Piece\Color.h" />
     <ClInclude Include="Piece\Piece.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="ShopFactory\ShopFactory.h" />
