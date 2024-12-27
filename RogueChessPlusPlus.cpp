@@ -1,10 +1,37 @@
 
 #include <iostream>
 
+#include "Game/Game.h"
+
+void game_loop()
+{
+    while (true)
+    {
+        
+    }
+}
+
 int main(int argc, char* argv[])
 {
-    std::cout << "Hello World!" << '\n';
+    std::cout << "Welcome to RogueChess!" << '\n';
+    while (true)
+    {
+        std::cout << "Start a new game?" << ' ';
+        std::string input;
+        std::cin >> input;
 
-    
-    return 0;
+        if (!input.empty() && input[0] != 'y')
+        {
+            return 0;
+        }
+
+        Game game;
+
+        game.start();
+
+        while (!game.is_game_over())
+        {
+            game.next_turn();
+        }
+    }
 }
