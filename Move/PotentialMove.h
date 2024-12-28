@@ -12,7 +12,6 @@ struct PotentialMove
     int repetitions_limit = 1;
     bool can_pass_through_pieces = false;
 
-    //for infinite chains, set to 0
-    int chain_limit = 1;
+    int chains_added = 0;
     bool is_only_chainable_on_capture = false;
 };

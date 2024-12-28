@@ -1,7 +1,6 @@
 #include "Board.h"
 
 #include <iostream>
-#include <string>
 
 #include "../Square/Square.h"
 
@@ -23,6 +22,14 @@ std::tuple<bool, Piece*> Board::try_get_piece(int x, int y)
     }
         
     return squares[x][y].try_get_piece();
+}
+
+bool Board::is_within_board_boundaries(int x, int y) const
+{
+    bool x_success = (x >= squares.size()) || (x < 0);
+    bool y_success = (y >= squares[x].size()) || (y < 0);
+
+    return x_success && y_success;
 }
 
 void Board::increment_turn()

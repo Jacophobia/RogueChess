@@ -18,9 +18,10 @@ public:
         this->potential_moves = potential_moves;
     }
     
-    std::vector<ValidMove> get_valid_moves(Board& board);
+    std::vector<ValidMove> get_valid_moves(Board& board) const;
     Color get_color();
     void increment_turn(bool is_piece_moved = false);
+    
 private:
     std::vector<PotentialMove> potential_moves = {};
     std::vector<PieceUpgrade> upgrades = {};

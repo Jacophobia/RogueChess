@@ -7,6 +7,7 @@ struct ValidMove
 
     int chains_remaining = 0;
 
-    int attack_delta_x = 0;
-    int attack_delta_y = 0;
+    bool is_capture_move = false;
+    int capture_delta_x = 0;
+    int capture_delta_y = 0;
 };
