@@ -4,10 +4,10 @@
 
 #include "Color.h"
 #include "../Upgrade/PieceUpgrade.h"
+#include "../Move/PotentialMove.h"
+#include "../Move/ValidMove.h"
 
 class Board;
-struct ValidMove;
-struct PotentialMove;
 
 class Piece
 {

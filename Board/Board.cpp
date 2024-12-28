@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "../Square/Square.h"
+#include "../Move/PotentialMove.h"
 
 std::tuple<bool, Piece*> Board::try_get_piece(int x, int y)
 {
@@ -34,8 +35,8 @@ bool Board::is_within_board_boundaries(int x, int y) const
 
 void Board::increment_turn()
 {
-    for (std::vector<Square>& square_column : squares)
-    for (Square& square : square_column)
+    for (auto & square_column : squares)
+    for (auto & square : square_column)
     {
         square.increment_turn();
     }
@@ -51,7 +52,7 @@ std::vector<Piece*> Board::place_pieces(std::vector<std::tuple<Piece*, int, int>
 {
     std::vector<Piece*> removed_pieces;
     
-    for (std::tuple<Piece*, int, int> piece_and_location : pieces_and_locations)
+    for (auto & piece_and_location : pieces_and_locations)
     {
         auto [piece, x, y] = piece_and_location;
 

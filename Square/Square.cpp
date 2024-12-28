@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "../Piece/Piece.h"
+#include "../Move/PotentialMove.h"
 
 std::tuple<bool, Piece*> Square::try_get_piece()
 {
