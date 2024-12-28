@@ -1,57 +1,35 @@
-
-
 #include <BearLibTerminal.h>
-#include <cstdio>
+#include <vector>
+
+#include "UI/UI.h"
 
 int main() {
-    // Initialize the terminal
-    terminal_open();
-    terminal_set("window: title='Mouse Position Example', size=80x25; input: mouse+"); // Enable mouse input
+    std::vector<std::vector<char>> board
+    {
+        { 'R', 'N', 'B', 'K', 'Q', 'B', 'N', 'R' },
+        { 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P' },
+        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+        { 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P' },
+        { 'R', 'N', 'B', 'K', 'Q', 'B', 'N', 'R' },
+    };
 
-    // Position of the character
-    int char_x = 10;
-    int char_y = 5;
-
-    // Draw the character
-    terminal_clear();
-    terminal_put(char_x, char_y, '@');
-    terminal_refresh();
+    UI ui;
+    ui.display_message("Welcome to RogueChess!");
 
     while (true) {
+        ui.display_board(board);
+        
         // Wait for an event
-        int key = terminal_read();
+        const auto key = ui.get_input();
 
-        if (key == TK_CLOSE || key == TK_Q) {
+        if (key == TK_CLOSE || key == TK_Q || key == TK_ESCAPE) {
             // Exit the loop on window close or 'q' key
-            terminal_close();
+            ui.quit();
             return 0;
         }
-
-        // Always display the current mouse position at the top left
-        int mouse_x = terminal_state(TK_MOUSE_X);
-        int mouse_y = terminal_state(TK_MOUSE_Y);
-        char mouse_position[64];
-        snprintf(mouse_position, sizeof(mouse_position), "Mouse at (%d, %d)", mouse_x, mouse_y);
-
-        terminal_clear();
-        terminal_printf(10, 10, mouse_position);
-
-        // Redraw the character
-        terminal_put(char_x, char_y, '@');
-
-        if (key == TK_MOUSE_LEFT) {
-            // Check if the mouse click is on the character
-            if (mouse_x == char_x && mouse_y == char_y) {
-                terminal_print(0, 1, "Character clicked!");
-            }
-            else {
-                char buffer[64];
-                snprintf(buffer, sizeof(buffer), "Mouse clicked at (%d, %d)", mouse_x, mouse_y);
-                terminal_print(0, 1, buffer);
-            }
-        }
-
-        terminal_refresh();
     }
 }
 
