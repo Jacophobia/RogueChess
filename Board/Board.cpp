@@ -34,10 +34,34 @@ bool Board::is_within_board_boundaries(int x, int y) const
 
 void Board::increment_turn()
 {
-    for (std::vector<Square> square_column : squares)
-    for (Square square : square_column)
+    for (std::vector<Square>& square_column : squares)
+    for (Square& square : square_column)
     {
         square.increment_turn();
     }
 
+}
+
+void Board::set_up(std::vector<std::tuple<Piece*, int, int>> pieces_and_locations)
+{
+    place_pieces(pieces_and_locations);
+}
+
+std::vector<Piece*> Board::place_pieces(std::vector<std::tuple<Piece*, int, int>> pieces_and_locations)
+{
+    std::vector<Piece*> removed_pieces;
+    
+    for (std::tuple<Piece*, int, int> piece_and_location : pieces_and_locations)
+    {
+        auto [piece, x, y] = piece_and_location;
+
+        Piece* removed_piece = squares[x][y].place_piece(piece);
+
+        if (removed_piece != nullptr)
+        {
+            removed_pieces.push_back(removed_piece);
+        }
+    }
+
+    return removed_pieces;
 }

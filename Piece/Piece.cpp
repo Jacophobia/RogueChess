@@ -11,8 +11,10 @@ std::vector<ValidMove> Piece::get_valid_moves(Board& board) const
     std::vector<ValidMove> valid_moves;
 
     //each potential move
-    for (PotentialMove potential_move : potential_moves)
+    for (PotentialMove base_potential_move : potential_moves)
     {
+        PotentialMove potential_move = upgrade_potential_move(base_potential_move);
+        
         //removes first-move moves if move is not first-move
         if (potential_move.is_only_valid_on_first_move && has_moved)
         {
@@ -82,4 +84,10 @@ void Piece::increment_turn(const bool is_piece_moved)
     {
         has_moved = true;
     }
+}
+
+PotentialMove Piece::upgrade_potential_move(PotentialMove potential_move) const
+{
+    //NOT IMPLEMENTED
+    return potential_move;
 }

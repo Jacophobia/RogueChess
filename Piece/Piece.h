@@ -23,8 +23,10 @@ public:
     void increment_turn(bool is_piece_moved = false);
     
 private:
-    std::vector<PotentialMove> potential_moves = {};
-    std::vector<PieceUpgrade> upgrades = {};
+    std::vector<PotentialMove> potential_moves;
+    std::vector<PieceUpgrade> upgrades;
     Color color = Color::white;
     bool has_moved = false;
+
+    PotentialMove upgrade_potential_move(PotentialMove potential_move) const;
 };

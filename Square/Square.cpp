@@ -32,3 +32,7 @@ Piece* Square::place_piece(Piece* piece)
     this->piece = piece;
     return old_piece;
 }
+
+void Square::change_color()
+{
+}
