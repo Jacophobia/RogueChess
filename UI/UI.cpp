@@ -41,10 +41,11 @@ UI::~UI()
     terminal_close(); // Close the terminal
 }
 
-void UI::display_message(const std::string& message)
+void UI::display_title(const std::string& message)
 {
     terminal_clear_area(1, 1, terminal_width, 1);
     terminal_printf(1, 1, message.c_str());
+    terminal_refresh();
 }
 
 void UI::display_board(const std::vector<std::vector<Square>>& board)
@@ -68,10 +69,7 @@ void UI::display_board(const std::vector<std::vector<Square>>& board)
 
 void UI::display_board(const std::vector<std::vector<char>>& board)
 {
-    constexpr auto x_tab_size = 5;
-    constexpr auto y_tab_size = 2;
-    
-    terminal_clear_area(5, 2, 33, 8); // Clear the screen
+    terminal_clear_area(x_tab_size, y_tab_size, 33, 17); // Clear the screen
 
     auto board_template =
         "---------------------------------\n"
@@ -100,7 +98,8 @@ void UI::display_board(const std::vector<std::vector<char>>& board)
         for (int x = 0; x < board[y].size(); ++x)
         {
             // Print each piece at the corresponding position
-            terminal_put(x_tab_size + 2 + x * 4, y_tab_size + 1 + y * 2, board[y][x]);
+            auto [x_pos, y_pos] = coordinate_to_position(x, y);
+            terminal_put(x_pos, y_pos, board[y][x]);
         }
     }
 
@@ -108,9 +107,27 @@ void UI::display_board(const std::vector<std::vector<char>>& board)
     terminal_refresh();
 }
 
+void UI::display_shop(Shop& shop)
+{
+    // Clear the inside of the board
+    terminal_clear_area(x_tab_size + 1, y_tab_size + 1, 31, 15);
+
+    // TODO: draw the shop
+
+    terminal_refresh();
+}
+
 int UI::get_input()
 {
     return terminal_read();
+}
+
+std::tuple<int, int> UI::get_selected_coordinate()
+{
+    int mouse_x = terminal_state(TK_MOUSE_X);
+    int mouse_y = terminal_state(TK_MOUSE_Y);
+
+    return position_to_coordinate(mouse_x, mouse_y);
 }
 
 void UI::exit()
@@ -121,4 +138,14 @@ void UI::exit()
 void UI::quit()
 {
     exit();
+}
+
+std::tuple<int, int> UI::coordinate_to_position(const int x, const int y) const
+{
+    return {x_tab_size + 2 + x * 4, y_tab_size + 1 + y * 2};
+}
+
+std::tuple<int, int> UI::position_to_coordinate(const int x, const int y) const
+{
+    return {(x - (1 + x_tab_size)) / 4, (y - (1 + y_tab_size)) / 2};
 }

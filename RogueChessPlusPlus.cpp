@@ -1,5 +1,6 @@
 #include <BearLibTerminal.h>
 #include <vector>
+#include <format>
 
 #include "UI/UI.h"
 
@@ -17,15 +18,31 @@ int main() {
     };
 
     UI ui;
-    ui.display_message("Welcome to RogueChess!");
+    ui.display_title("Welcome to RogueChess!");
 
     while (true) {
-        ui.display_board(board);
-        
         // Wait for an event
         const auto key = ui.get_input();
+        
+        if (key == TK_S)
+        {
+            // Display the shop
+            Shop shop;
+            ui.display_shop(shop);
+        }
+        else
+        {
+            ui.display_board(board);
+        }
 
-        if (key == TK_CLOSE || key == TK_Q || key == TK_ESCAPE) {
+        if (key == TK_MOUSE_LEFT)
+        {
+            auto [x, y] = ui.get_selected_coordinate();
+            ui.display_title(std::format("Selected ({}, {})", x, y));
+        }
+
+        if (key == TK_CLOSE || key == TK_Q || key == TK_ESCAPE)
+        {
             // Exit the loop on window close or 'q' key
             ui.quit();
             return 0;
