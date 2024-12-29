@@ -5,6 +5,8 @@
 #include <string>
 #include <iostream>
 
+#include "Colors.h"
+
 UI::UI()
 {
     char terminal_params[128];
@@ -44,7 +46,7 @@ UI::~UI()
 void UI::display_title(const std::string& message)
 {
     terminal_clear_area(1, 1, terminal_width, 1);
-    terminal_printf(1, 1, message.c_str());
+    print(1, 1, message);
     terminal_refresh();
 }
 
@@ -59,7 +61,7 @@ void UI::display_board(const std::vector<std::vector<Square>>& board)
         {
             constexpr auto tab_size = 6;
             // Print each piece at the corresponding position
-            terminal_printf(tab_size + x * 2, tab_size + y * 2, "%s", board[y][x].to_string().c_str());
+            print(tab_size + x * 2, tab_size + y * 2, board[y][x].get_graphic());
         }
     }
 
@@ -89,18 +91,17 @@ void UI::display_board(const std::vector<std::vector<char>>& board)
         "---------------------------------\n"
         "|   |   |   |   |   |   |   |   |\n"
         "---------------------------------\n";
+
     
-    terminal_printf(x_tab_size, y_tab_size, board_template);
+    print(x_tab_size, y_tab_size, board_template);
 
     // Iterate over the board and draw each piece
     for (int y = 0; y < board.size(); ++y)
+    for (int x = 0; x < board[y].size(); ++x)
     {
-        for (int x = 0; x < board[y].size(); ++x)
-        {
-            // Print each piece at the corresponding position
-            auto [x_pos, y_pos] = coordinate_to_position(x, y);
-            terminal_put(x_pos, y_pos, board[y][x]);
-        }
+        // Print each piece at the corresponding position
+        auto [x_pos, y_pos] = coordinate_to_position(x, y);
+        print(x_pos, y_pos, board[y][x]);
     }
 
     // Refresh the screen to show the board
@@ -148,4 +149,22 @@ std::tuple<int, int> UI::coordinate_to_position(const int x, const int y) const
 std::tuple<int, int> UI::position_to_coordinate(const int x, const int y) const
 {
     return {(x - (1 + x_tab_size)) / 4, (y - (1 + y_tab_size)) / 2};
+}
+
+void UI::print(int x, int y, const std::string& message, const color_t color)
+{
+    terminal_color(colors::celestial_blue);
+    terminal_printf(x, y, message.c_str());
+}
+
+void UI::print(int x, int y, const char message, color_t color)
+{
+    terminal_color(colors::tea_green);
+    terminal_put(x, y, message);
+}
+
+void UI::print(int x, int y, TerminalGraphic graphic)
+{
+    terminal_color(colors::tea_green);
+    terminal_printf(x, y, graphic.message.c_str());
 }

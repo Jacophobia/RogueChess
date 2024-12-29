@@ -38,7 +38,7 @@ void Square::change_color()
 {
 }
 
-std::string Square::to_string() const
+TerminalGraphic Square::get_graphic() const
 {
-    return piece->to_string();
+    return piece->get_graphic();
 }

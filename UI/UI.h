@@ -1,5 +1,6 @@
 #pragma once
 
+#include <BearLibTerminal.h>
 #include <vector>
 
 #include "../Inventory/Inventory.h"
@@ -11,7 +12,7 @@ class UI
 public:
     UI();
     ~UI();
-    UI(UI*) = delete;
+    UI(UI&) = delete;
     UI& operator=(UI&) = delete;
 
     void display_title(const std::string& message);
@@ -33,4 +34,8 @@ private:
 
     std::tuple<int, int> coordinate_to_position(int x, int y) const;
     std::tuple<int, int> position_to_coordinate(int x, int y) const;
+
+    void print(int x, int y, const std::string& message, color_t color = 0xffffff);
+    void print(int x, int y, char message, color_t color = 0xffffff);
+    void print(int x, int y, TerminalGraphic graphic);
 };

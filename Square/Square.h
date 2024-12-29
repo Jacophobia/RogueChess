@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "../UI/TerminalGraphic.h"
+
 class Piece;
 
 class Square
@@ -13,7 +15,7 @@ public:
     Piece* place_piece(Piece* piece);
 
     void change_color(/*still needs arguments*/);
-    std::string to_string() const;
+    [[nodiscard]] TerminalGraphic get_graphic() const;
 
 private:
     Piece* piece = nullptr;

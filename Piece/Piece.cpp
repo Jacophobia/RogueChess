@@ -3,6 +3,7 @@
 #include "../Board/Board.h"
 #include "../Move/PotentialMove.h"
 #include "../Move/ValidMove.h"
+#include "../UI/Colors.h"
 
 class Square;
 
@@ -92,7 +93,7 @@ PotentialMove Piece::upgrade_potential_move(PotentialMove potential_move) const
     return potential_move;
 }
 
-std::string Piece::to_string() const
+TerminalGraphic Piece::get_graphic() const
 {
-    return "P";
+    return { .message= "P", .color= colors::celestial_blue };
 }
