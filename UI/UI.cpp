@@ -45,24 +45,53 @@ UI::~UI()
 
 void UI::display_title(const std::string& message)
 {
-    terminal_clear_area(1, 1, terminal_width, 1);
+    clear(title_section);
     print(1, 1, message);
     terminal_refresh();
 }
 
-void UI::display_board(const std::vector<std::vector<Square>>& board)
+void UI::display_board(Board& board)
 {
-    terminal_clear(); // Clear the screen
+    clear(board_section);
+
+    auto board_template =
+        "----+---+---+---+---+---+---+----\n"
+        "|   |   |   |   |   |   |   |   |\n"
+        "----+---+---+---+---+---+---+----\n"
+        "|   |   |   |   |   |   |   |   |\n"
+        "----+---+---+---+---+---+---+----\n"
+        "|   |   |   |   |   |   |   |   |\n"
+        "----+---+---+---+---+---+---+----\n"
+        "|   |   |   |   |   |   |   |   |\n"
+        "----+---+---+---+---+---+---+----\n"
+        "|   |   |   |   |   |   |   |   |\n"
+        "----+---+---+---+---+---+---+----\n"
+        "|   |   |   |   |   |   |   |   |\n"
+        "----+---+---+---+---+---+---+----\n"
+        "|   |   |   |   |   |   |   |   |\n"
+        "----+---+---+---+---+---+---+----\n"
+        "|   |   |   |   |   |   |   |   |\n"
+        "----+---+---+---+---+---+---+----\n";
+
+    
+    print(board_section.x, board_section.y, board_template);
 
     // Iterate over the board and draw each piece
-    for (int y = 0; y < board.size(); ++y)
+    for (int y = 0; y < board.height(); ++y)
+    for (int x = 0; x < board.width(); ++x)
     {
-        for (int x = 0; x < board[y].size(); ++x)
+        // Print each piece at the corresponding position
+        auto [x_pos, y_pos] = coordinate_to_position(x, y);
+        auto [contains_piece, piece] = board.try_get_piece(x, y);
+        if (contains_piece)
         {
-            constexpr auto tab_size = 6;
-            // Print each piece at the corresponding position
-            print(tab_size + x * 2, tab_size + y * 2, board[y][x].get_graphic());
+            print(x_pos, y_pos, piece->get_graphic());
         }
+        else
+        {
+            print(x_pos, y_pos, " ");
+        }
+        
     }
 
     // Refresh the screen to show the board
@@ -71,29 +100,29 @@ void UI::display_board(const std::vector<std::vector<Square>>& board)
 
 void UI::display_board(const std::vector<std::vector<char>>& board)
 {
-    terminal_clear_area(x_tab_size, y_tab_size, 33, 17); // Clear the screen
+    clear(board_section);
 
     auto board_template =
         "---------------------------------\n"
         "|   |   |   |   |   |   |   |   |\n"
-        "---------------------------------\n"
+        "----+---+---+---+---+---+---+----\n"
         "|   |   |   |   |   |   |   |   |\n"
-        "---------------------------------\n"
+        "----+---+---+---+---+---+---+----\n"
         "|   |   |   |   |   |   |   |   |\n"
-        "---------------------------------\n"
+        "----+---+---+---+---+---+---+----\n"
         "|   |   |   |   |   |   |   |   |\n"
-        "---------------------------------\n"
+        "----+---+---+---+---+---+---+----\n"
         "|   |   |   |   |   |   |   |   |\n"
-        "---------------------------------\n"
+        "----+---+---+---+---+---+---+----\n"
         "|   |   |   |   |   |   |   |   |\n"
-        "---------------------------------\n"
+        "----+---+---+---+---+---+---+----\n"
         "|   |   |   |   |   |   |   |   |\n"
-        "---------------------------------\n"
+        "----+---+---+---+---+---+---+----\n"
         "|   |   |   |   |   |   |   |   |\n"
         "---------------------------------\n";
 
     
-    print(x_tab_size, y_tab_size, board_template);
+    print(board_section.x, board_section.y, board_template);
 
     // Iterate over the board and draw each piece
     for (int y = 0; y < board.size(); ++y)
@@ -111,7 +140,7 @@ void UI::display_board(const std::vector<std::vector<char>>& board)
 void UI::display_shop(Shop& shop)
 {
     // Clear the inside of the board
-    terminal_clear_area(x_tab_size + 1, y_tab_size + 1, 31, 15);
+    clear(shop_section);
 
     // TODO: draw the shop
 
@@ -141,14 +170,19 @@ void UI::quit()
     exit();
 }
 
+void UI::clear(const TerminalSection& section)
+{
+    terminal_clear_area(section.x, section.y, section.width, section.height);
+}
+
 std::tuple<int, int> UI::coordinate_to_position(const int x, const int y) const
 {
-    return {x_tab_size + 2 + x * 4, y_tab_size + 1 + y * 2};
+    return {board_section.x + 2 + x * 4, board_section.y + 1 + y * 2};
 }
 
 std::tuple<int, int> UI::position_to_coordinate(const int x, const int y) const
 {
-    return {(x - (1 + x_tab_size)) / 4, (y - (1 + y_tab_size)) / 2};
+    return {(x - (1 + board_section.x)) / 4, (y - (1 + board_section.y)) / 2};
 }
 
 void UI::print(int x, int y, const std::string& message, const color_t color)

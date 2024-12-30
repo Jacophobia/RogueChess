@@ -32,5 +32,5 @@ private:
     Color color = Color::white;
     bool has_moved = false;
 
-    PotentialMove upgrade_potential_move(PotentialMove potential_move) const;
+    [[nodiscard]] PotentialMove upgrade_potential_move(PotentialMove potential_move) const;
 };
