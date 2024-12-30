@@ -27,8 +27,8 @@ std::tuple<bool, Piece*> Board::try_get_piece(int x, int y)
 
 bool Board::is_within_board_boundaries(int x, int y) const
 {
-    bool x_success = (x >= squares.size()) || (x < 0);
-    bool y_success = (y >= squares[x].size()) || (y < 0);
+    const bool x_success = (x >= squares.size()) || (x < 0);
+    const bool y_success = (y >= squares[x].size()) || (y < 0);
 
     return x_success && y_success;
 }

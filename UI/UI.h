@@ -22,7 +22,8 @@ public:
     void display_board(Board& board);
     void display_board(const std::vector<std::vector<char>>& board);
     void display_shop(Shop& shop);
-    // void display_inventory(Inventory& inventory);
+    void display_inventory(Inventory& inventory);
+    void display_info(const std::string& info);
     int get_input();
     std::tuple<int, int> get_selected_coordinate();
     void exit();

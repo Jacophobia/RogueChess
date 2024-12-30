@@ -54,7 +54,7 @@ void UI::display_board(Board& board)
 {
     clear(board_section);
 
-    auto board_template =
+    const auto board_template =
         "----+---+---+---+---+---+---+----\n"
         "|   |   |   |   |   |   |   |   |\n"
         "----+---+---+---+---+---+---+----\n"
@@ -77,8 +77,8 @@ void UI::display_board(Board& board)
     print(board_section.x, board_section.y, board_template);
 
     // Iterate over the board and draw each piece
-    for (int y = 0; y < board.height(); ++y)
-    for (int x = 0; x < board.width(); ++x)
+    for (int y = 0; y < static_cast<int>(board.height()); ++y)
+    for (int x = 0; x < static_cast<int>(board.width()); ++x)
     {
         // Print each piece at the corresponding position
         auto [x_pos, y_pos] = coordinate_to_position(x, y);
@@ -102,7 +102,7 @@ void UI::display_board(const std::vector<std::vector<char>>& board)
 {
     clear(board_section);
 
-    auto board_template =
+    const auto board_template =
         "---------------------------------\n"
         "|   |   |   |   |   |   |   |   |\n"
         "----+---+---+---+---+---+---+----\n"
@@ -154,8 +154,8 @@ int UI::get_input()
 
 std::tuple<int, int> UI::get_selected_coordinate()
 {
-    int mouse_x = terminal_state(TK_MOUSE_X);
-    int mouse_y = terminal_state(TK_MOUSE_Y);
+    const int mouse_x = terminal_state(TK_MOUSE_X);
+    const int mouse_y = terminal_state(TK_MOUSE_Y);
 
     return position_to_coordinate(mouse_x, mouse_y);
 }
@@ -201,4 +201,94 @@ void UI::print(int x, int y, TerminalGraphic graphic)
 {
     terminal_color(colors::tea_green);
     terminal_printf(x, y, graphic.message.c_str());
+}
+
+void UI::display_inventory(Inventory& inventory)
+{
+    int x = inventory_section.x;
+    int y = inventory_section.y;
+    
+    for (auto it = inventory.begin(PieceType::king); it != inventory.end(PieceType::king); ++it)
+    {
+        print(x, y, it->get_graphic());
+        if (x < terminal_width)
+        {
+            x += 4;
+        }
+        else
+        {
+            y += 2;
+            x = inventory_section.x;
+        }
+    }
+    for (auto it = inventory.begin(PieceType::queen); it != inventory.end(PieceType::queen); ++it)
+    {
+        print(x, y, it->get_graphic());
+        if (x < terminal_width)
+        {
+            x += 4;
+        }
+        else
+        {
+            y += 2;
+            x = inventory_section.x;
+        }
+    }
+    for (auto it = inventory.begin(PieceType::rook); it != inventory.end(PieceType::rook); ++it)
+    {
+        print(x, y, it->get_graphic());
+        if (x < terminal_width)
+        {
+            x += 4;
+        }
+        else
+        {
+            y += 2;
+            x = inventory_section.x;
+        }
+    }
+    for (auto it = inventory.begin(PieceType::bishop); it != inventory.end(PieceType::bishop); ++it)
+    {
+        print(x, y, it->get_graphic());
+        if (x < terminal_width)
+        {
+            x += 4;
+        }
+        else
+        {
+            y += 2;
+            x = inventory_section.x;
+        }
+    }
+    for (auto it = inventory.begin(PieceType::knight); it != inventory.end(PieceType::knight); ++it)
+    {
+        print(x, y, it->get_graphic());
+        if (x < terminal_width)
+        {
+            x += 4;
+        }
+        else
+        {
+            y += 2;
+            x = inventory_section.x;
+        }
+    }
+    for (auto it = inventory.begin(PieceType::pawn); it != inventory.end(PieceType::pawn); ++it)
+    {
+        print(x, y, it->get_graphic());
+        if (x < terminal_width)
+        {
+            x += 4;
+        }
+        else
+        {
+            y += 2;
+            x = inventory_section.x;
+        }
+    }
+}
+
+void UI::display_info(const std::string& info)
+{
+    print(info_section.x, info_section.y, info);
 }

@@ -191,6 +191,7 @@
     <ClInclude Include="OpponentFactory\OpponentFactory.h" />
     <ClInclude Include="Piece\Color.h" />
     <ClInclude Include="Piece\Piece.h" />
+    <ClInclude Include="Piece\PieceType.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="ShopFactory\ShopFactory.h" />
     <ClInclude Include="Shop\Shop.h" />

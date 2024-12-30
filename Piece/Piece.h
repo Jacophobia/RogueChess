@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Color.h"
+#include "PieceType.h"
 #include "../Upgrade/PieceUpgrade.h"
 #include "../Move/PotentialMove.h"
 #include "../Move/ValidMove.h"
@@ -25,7 +26,7 @@ public:
     Color get_color();
     void increment_turn(bool is_piece_moved = false);
     [[nodiscard]] TerminalGraphic get_graphic() const;
-    
+    [[nodiscard]] PieceType get_type();
 private:
     std::vector<PotentialMove> potential_moves;
     std::vector<PieceUpgrade> upgrades;

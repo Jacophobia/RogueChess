@@ -5,7 +5,7 @@
 #include "UI/UI.h"
 
 int main() {
-    std::vector<std::vector<char>> board
+    const std::vector<std::vector<char>> board
     {
         { 'R', 'N', 'B', 'K', 'Q', 'B', 'N', 'R' },
         { 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P' },
