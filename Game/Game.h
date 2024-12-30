@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Board/Board.h"
-#include "../OpponentFactory/OpponentFactory.h"
+#include "../PieceFactory/PieceFactory.h"
 #include "../Player/Player.h"
 #include "../ShopFactory/ShopFactory.h"
 
@@ -18,6 +18,6 @@ private:
     ShopFactory shop_factory;
     Shop* current_shop;
     Player player;
-    OpponentFactory opponent_factory;
+    PieceFactory piece_factory;
     Player* current_opponent;
 };

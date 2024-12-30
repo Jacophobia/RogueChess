@@ -172,7 +172,7 @@
     <ClCompile Include="Board\Board.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Inventory\Inventory.cpp" />
-    <ClCompile Include="OpponentFactory\OpponentFactory.cpp" />
+    <ClCompile Include="PieceFactory\PieceFactory.cpp" />
     <ClCompile Include="Piece\Piece.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="RogueChessPlusPlus.cpp" />
@@ -188,9 +188,10 @@
     <ClInclude Include="Inventory\Inventory.h" />
     <ClInclude Include="Move\PotentialMove.h" />
     <ClInclude Include="Move\ValidMove.h" />
-    <ClInclude Include="OpponentFactory\OpponentFactory.h" />
+    <ClInclude Include="PieceFactory\PieceFactory.h" />
     <ClInclude Include="Piece\Color.h" />
     <ClInclude Include="Piece\Piece.h" />
+    <ClInclude Include="Piece\PieceType.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="ShopFactory\ShopFactory.h" />
     <ClInclude Include="Shop\Shop.h" />

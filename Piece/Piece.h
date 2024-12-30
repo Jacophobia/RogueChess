@@ -15,10 +15,11 @@ class Piece
 {
 public:
     Piece(Piece&) = delete;
-    Piece(Color color, const std::vector<PotentialMove>& potential_moves)
+    Piece(Color color, const std::vector<PotentialMove>& potential_moves, int rating)
     {
         this->color = color;
         this->potential_moves = potential_moves;
+        this->rating = rating;
     }
     
     std::vector<ValidMove> get_valid_moves(Board& board) const;
@@ -31,6 +32,7 @@ private:
     std::vector<PieceUpgrade> upgrades;
     Color color = Color::white;
     bool has_moved = false;
+    int rating = 1;
 
     PotentialMove upgrade_potential_move(PotentialMove potential_move) const;
 };
