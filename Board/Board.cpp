@@ -4,6 +4,7 @@
 
 #include "../Square/Square.h"
 #include "../Move/PotentialMove.h"
+#include "../Piece/PieceType.h"
 
 std::tuple<bool, Piece*> Board::try_get_piece(int x, int y)
 {
@@ -34,45 +35,18 @@ bool Board::is_within_board_boundaries(int x, int y) const
 }
 
 //Method is called at the BEGINNING of each player's turn
-void Board::increment_turn()
+void Board::increment_turn(Color current_turn_color)
 {
-    current_turn = color::rotate_color(current_turn);
-    
     for (auto & square_column : squares)
     for (auto & square : square_column)
     {
         auto [success, piece] = square.try_get_piece();
 
-        if (success && piece->get_color() == current_turn)
+        if (success && piece->get_color() == current_turn_color)
         {
             square.increment_turn();
         }
     }
-}
-
-bool Board::select_piece(int x, int y)
-{
-    if (!is_within_board_boundaries(x, y))
-    {
-        std::cout << "Selection is not within the bounds of the board.";
-        return false;
-    }
-
-    auto [success, piece] = try_get_piece(x, y);
-
-    if (!success)
-    {
-        std::cout << "Selection is not a piece";
-        return false;
-    }
-
-    if (piece->get_color() != current_turn)
-    {
-        std::cout << "Selection is a piece, but not of the right color";
-        return false;
-    }
-
-    return true
 }
 
 void Board::set_up(std::vector<std::tuple<Piece*, int, int>>& pieces_and_locations)
