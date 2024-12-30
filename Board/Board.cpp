@@ -27,27 +27,60 @@ std::tuple<bool, Piece*> Board::try_get_piece(int x, int y)
 
 bool Board::is_within_board_boundaries(int x, int y) const
 {
-    bool x_success = (x >= squares.size()) || (x < 0);
-    bool y_success = (y >= squares[x].size()) || (y < 0);
+    bool x_success = x >= squares.size() || x < 0;
+    bool y_success = y >= squares[x].size() || y < 0;
 
     return x_success && y_success;
 }
 
+//Method is called at the BEGINNING of each player's turn
 void Board::increment_turn()
 {
+    current_turn = color::rotate_color(current_turn);
+    
     for (auto & square_column : squares)
     for (auto & square : square_column)
     {
-        square.increment_turn();
-    }
+        auto [success, piece] = square.try_get_piece();
 
+        if (success && piece->get_color() == current_turn)
+        {
+            square.increment_turn();
+        }
+    }
 }
 
-void Board::set_up(std::vector<std::tuple<Piece*, int, int>> pieces_and_locations)
+bool Board::select_piece(int x, int y)
+{
+    if (!is_within_board_boundaries(x, y))
+    {
+        std::cout << "Selection is not within the bounds of the board.";
+        return false;
+    }
+
+    auto [success, piece] = try_get_piece(x, y);
+
+    if (!success)
+    {
+        std::cout << "Selection is not a piece";
+        return false;
+    }
+
+    if (piece->get_color() != current_turn)
+    {
+        std::cout << "Selection is a piece, but not of the right color";
+        return false;
+    }
+
+    return true
+}
+
+void Board::set_up(std::vector<std::tuple<Piece*, int, int>>& pieces_and_locations)
 {
     place_pieces(pieces_and_locations);
 }
 
+//TODO: Rework this method, it kind of sucks and I don't love the parameter 
 std::vector<Piece*> Board::place_pieces(std::vector<std::tuple<Piece*, int, int>> pieces_and_locations)
 {
     std::vector<Piece*> removed_pieces;

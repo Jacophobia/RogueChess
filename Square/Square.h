@@ -14,10 +14,9 @@ public:
     void increment_turn();
     Piece* place_piece(Piece* piece);
 
-    void change_color(/*still needs arguments*/);
     [[nodiscard]] TerminalGraphic get_graphic() const;
 
 private:
     Piece* piece = nullptr;
-    bool was_piece_placed_here = false;
+    bool was_piece_placed_here = false;;
 };

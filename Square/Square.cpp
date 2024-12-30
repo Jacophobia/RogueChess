@@ -34,10 +34,6 @@ Piece* Square::place_piece(Piece* piece)
     return old_piece;
 }
 
-void Square::change_color()
-{
-}
-
 TerminalGraphic Square::get_graphic() const
 {
     return piece->get_graphic();

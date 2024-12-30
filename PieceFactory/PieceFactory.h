@@ -8,7 +8,6 @@
 class PieceFactory
 {
 public:
-    std::shared_ptr<Piece> build_pawn(Color color);
-    
+    static std::shared_ptr<Piece> build_pawn(Color color);
     
 };
