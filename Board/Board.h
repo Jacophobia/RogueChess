@@ -21,7 +21,8 @@ public:
     bool show_valid_moves(int x, int y);
 
     void set_up(std::vector<std::tuple<Piece*, int, int>>& pieces_and_locations);
-    
+    [[nodiscard]] size_t width() const;
+    [[nodiscard]] size_t height() const;
 private:
     UI* ui;
     

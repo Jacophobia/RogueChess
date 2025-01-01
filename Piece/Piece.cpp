@@ -12,9 +12,9 @@ std::vector<ValidMove> Piece::get_valid_moves(Board& board) const
     std::vector<ValidMove> valid_moves;
 
     //each potential move
-    for (PotentialMove base_potential_move : potential_moves)
+    for (const PotentialMove base_potential_move : potential_moves)
     {
-        PotentialMove potential_move = upgrade_potential_move(base_potential_move);
+        const PotentialMove potential_move = upgrade_potential_move(base_potential_move);
         
         //removes first-move moves if move is not first-move
         if (potential_move.is_only_valid_on_first_move && has_moved)
@@ -26,8 +26,8 @@ std::vector<ValidMove> Piece::get_valid_moves(Board& board) const
         const int limit = potential_move.repetitions_limit;
         for (int i = 1; i <= limit || limit == 0; i++)
         {
-            int checked_delta_x = potential_move.delta_x * i;
-            int checked_delta_y = potential_move.delta_y * i;
+            const int checked_delta_x = potential_move.delta_x * i;
+            const int checked_delta_y = potential_move.delta_y * i;
 
             if (!board.is_within_board_boundaries(checked_delta_x, checked_delta_y))
             {
@@ -96,4 +96,10 @@ PotentialMove Piece::upgrade_potential_move(PotentialMove potential_move) const
 TerminalGraphic Piece::get_graphic() const
 {
     return { .message= "P", .color= colors::celestial_blue };
+}
+
+PieceType Piece::get_type()
+{
+    // TODO: do this
+    return PieceType::bishop;
 }

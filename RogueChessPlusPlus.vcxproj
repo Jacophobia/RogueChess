@@ -196,6 +196,7 @@
     <ClInclude Include="ShopFactory\ShopFactory.h" />
     <ClInclude Include="Shop\Shop.h" />
     <ClInclude Include="Square\Square.h" />
+    <ClInclude Include="UI\TerminalSection.h" />
     <ClInclude Include="UI\Colors.h" />
     <ClInclude Include="UI\TerminalGraphic.h" />
     <ClInclude Include="UI\UI.h" />
