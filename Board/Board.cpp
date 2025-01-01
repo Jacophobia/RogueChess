@@ -6,6 +6,13 @@
 #include "../Move/PotentialMove.h"
 #include "../Piece/PieceType.h"
 
+Board::Board(UI* ui)
+{
+    this->ui = ui;
+    
+    ui->display_board(squares);
+}
+
 std::tuple<bool, Piece*> Board::try_get_piece(int x, int y)
 {
     if (x >= squares.size() || x < 0)
@@ -46,6 +53,16 @@ void Board::increment_turn(Color current_turn_color)
         {
             square.increment_turn();
         }
+    }
+}
+
+bool Board::show_valid_moves(int x, int y)
+{
+    auto [success, Piece] = try_get_piece(x, y);
+
+    if (success)
+    {
+        ui->
     }
 }
 

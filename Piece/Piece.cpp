@@ -89,7 +89,7 @@ void Piece::increment_turn(const bool is_piece_moved)
 
 PotentialMove Piece::upgrade_potential_move(PotentialMove potential_move) const
 {
-    //NOT IMPLEMENTED
+    // TODO: NOT IMPLEMENTED
     return potential_move;
 }
 
