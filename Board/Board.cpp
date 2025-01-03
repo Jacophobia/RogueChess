@@ -53,6 +53,9 @@ void Board::increment_turn(Color current_turn_color)
 
 void Board::show_valid_moves(int x, int y)
 {
+    const char* valid_moves_empty_space_color = colors::green;
+    const char* valid_moves_opponent_space_color = colors::red;
+    
     auto [contains_piece, piece] = try_get_piece(x, y);
 
     if (!contains_piece)
@@ -65,12 +68,15 @@ void Board::show_valid_moves(int x, int y)
     for (ValidMove valid_move : valid_moves)
     {
         Square square = squares[y + valid_move.delta_y][x + valid_move.delta_x];
-
-        square.override_color(colors::green);
-
+        
         if (!square.contains_piece())
         {
             square.override_symbol("#");
+            square.override_color(valid_moves_empty_space_color);
+        }
+        else
+        {
+            square.override_color(valid_moves_opponent_space_color);
         }
     }
 }

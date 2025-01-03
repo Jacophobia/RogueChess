@@ -19,6 +19,8 @@ public:
 private:
     void select_piece(int x, int y);
 
+    void test_setup();
+    
     Board board;
     ShopFactory shop_factory;
     Shop* current_shop;
