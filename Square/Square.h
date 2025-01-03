@@ -11,6 +11,10 @@ class Piece;
 class Square
 {
 public:
+    Square() = default;
+    ~Square() = default;
+    Square(Square&) = default;
+    
     std::tuple<bool, Piece*> try_get_piece();
     void increment_turn();
     Piece* place_piece(Piece* piece);

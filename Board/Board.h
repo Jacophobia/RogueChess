@@ -13,6 +13,7 @@ class Board
 public:
     ~Board() = default;
     Board(Board&) = delete;
+    Board();
     
     std::tuple<bool, Piece*> try_get_piece(int x, int y);
     bool is_within_board_boundaries(int x, int y) const;

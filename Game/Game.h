@@ -10,9 +10,12 @@ class Shop;
 class Game
 {
 public:
+    Game();
+    
     void start();
     void next_turn();
     bool is_game_over();
+    void close();
 private:
     void select_piece(int x, int y);
 
@@ -23,4 +26,6 @@ private:
     PieceFactory piece_factory;
     Player* current_opponent;
     UI ui;
+
+    bool is_game_over2 = false;
 };

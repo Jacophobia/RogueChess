@@ -6,6 +6,8 @@
 #include "../Move/PotentialMove.h"
 #include "../Piece/PieceType.h"
 
+Board::Board() : squares(8, std::vector<Square>(8)) { }
+
 std::tuple<bool, Piece*> Board::try_get_piece(int x, int y)
 {
     if (y >= squares.size() || y < 0)
