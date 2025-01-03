@@ -27,5 +27,5 @@ private:
     Player* current_opponent;
     UI ui;
 
-    bool is_game_over2 = false;
+    bool could_the_game_be_possibly_over = false;
 };

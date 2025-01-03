@@ -18,7 +18,7 @@ void Game::next_turn()
     while (true)
     {
         const auto key = ui.get_input();
-        
+        ui.display_board(&board);
         if (key == TK_S)
         {
             // Display the shop
@@ -39,7 +39,7 @@ void Game::next_turn()
         if (key == TK_CLOSE || key == TK_Q || key == TK_ESCAPE)
         {
             // Exit the loop on window close or 'q' key
-            is_game_over2 = true;
+            could_the_game_be_possibly_over = true;
             return;
         }
     }
@@ -47,8 +47,7 @@ void Game::next_turn()
 
 bool Game::is_game_over()
 {
-    //TODO: make it not always false lol
-    return is_game_over2;
+    return could_the_game_be_possibly_over;
 }
 
 void Game::close()

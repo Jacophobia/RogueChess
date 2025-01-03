@@ -44,7 +44,7 @@ TerminalGraphic Square::get_graphic() const
 {
     TerminalGraphic graphic;
 
-    const TerminalGraphic empty_square_graphic = { .message = " ", .color = colors::white };
+    const TerminalGraphic empty_square_graphic = { .message = "O", .color = colors::white };
     
     if (!overriding_color.empty())
     {
