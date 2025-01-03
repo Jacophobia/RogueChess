@@ -3,7 +3,6 @@
 #include <iostream>
 
 #include "../Piece/Piece.h"
-#include "../Move/PotentialMove.h"
 #include "../UI/Colors.h"
 
 std::tuple<bool, std::shared_ptr<Piece>> Square::try_get_piece()

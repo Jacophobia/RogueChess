@@ -4,7 +4,6 @@
 
 #include <string>
 
-#include "../UI/Colors.h"
 #include "../UI/TerminalGraphic.h"
 
 class Piece;
