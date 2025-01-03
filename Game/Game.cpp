@@ -17,6 +17,6 @@ bool Game::is_game_over()
 
 void Game::select_piece(int x, int y)
 {
-    board.show_valid_moves(x, y, ui);
+    board.show_valid_moves(x, y);
 }
 
