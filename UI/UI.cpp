@@ -145,13 +145,13 @@ void UI::print(int x, int y, const std::string& message, const color_t color)
 
 void UI::print(int x, int y, const char message, color_t color)
 {
-    terminal_color(colors::tea_green);
+    terminal_color(color);
     terminal_put(x, y, message);
 }
 
 void UI::print(int x, int y, TerminalGraphic graphic)
 {
-    terminal_color(colors::tea_green);
+    terminal_color(graphic.color);
     terminal_printf(x, y, graphic.message.c_str());
 }
 

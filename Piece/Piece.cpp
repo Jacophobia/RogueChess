@@ -95,7 +95,23 @@ PotentialMove Piece::upgrade_potential_move(PotentialMove potential_move) const
 
 TerminalGraphic Piece::get_graphic() const
 {
-    return { .message= "P", .color= colors::celestial_blue };
+    const char* graphic_symbol = "P";
+    const char* graphic_color;
+
+    switch (color)
+    {
+    case Color::white:
+        graphic_color = colors::tea_green;
+        break;
+    case Color::black:
+        graphic_color = colors::dark_orange;
+        break;
+    default:
+        graphic_color = colors::red;
+        break;
+    }
+
+    return { .message= graphic_symbol, .color= graphic_color };
 }
 
 PieceType Piece::get_type()

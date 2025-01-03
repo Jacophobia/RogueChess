@@ -8,7 +8,7 @@
 
 Board::Board() : squares(8, std::vector<Square>(8)) { }
 
-std::tuple<bool, Piece*> Board::try_get_piece(int x, int y)
+std::tuple<bool, std::shared_ptr<Piece>> Board::try_get_piece(int x, int y)
 {
     if (y >= squares.size() || y < 0)
     {
@@ -84,7 +84,7 @@ void Board::clear_graphical_overrides()
     }
 }
 
-void Board::set_up(std::vector<std::tuple<Piece*, int, int>>& pieces_and_locations)
+void Board::set_up(std::vector<std::tuple<std::shared_ptr<Piece>, int, int>>& pieces_and_locations)
 {
     place_pieces(pieces_and_locations);
 }
@@ -106,18 +106,18 @@ size_t Board::height() const
 
 TerminalGraphic Board::get_graphic(int x, int y) const
 {
-    return squares[y][x].get_graphic();
+    return squares[x][y].get_graphic();
 }
 
-std::vector<Piece*> Board::place_pieces(std::vector<std::tuple<Piece*, int, int>> pieces_and_locations)
+std::vector<std::shared_ptr<Piece>> Board::place_pieces(std::vector<std::tuple<std::shared_ptr<Piece>, int, int>> pieces_and_locations)
 {
-    std::vector<Piece*> removed_pieces;
+    std::vector<std::shared_ptr<Piece>> removed_pieces;
     
     for (auto & piece_and_location : pieces_and_locations)
     {
         auto [piece, x, y] = piece_and_location;
 
-        Piece* removed_piece = squares[x][y].place_piece(piece);
+        std::shared_ptr<Piece> removed_piece = squares[x][y].place_piece(piece);
 
         if (removed_piece != nullptr)
         {

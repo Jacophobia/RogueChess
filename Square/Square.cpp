@@ -6,7 +6,7 @@
 #include "../Move/PotentialMove.h"
 #include "../UI/Colors.h"
 
-std::tuple<bool, Piece*> Square::try_get_piece()
+std::tuple<bool, std::shared_ptr<Piece>> Square::try_get_piece()
 {
     bool is_piece_there = piece != nullptr;
 
@@ -20,7 +20,7 @@ void Square::increment_turn()
     was_piece_placed_here = false;
 }
 
-Piece* Square::place_piece(Piece* piece)
+std::shared_ptr<Piece> Square::place_piece(std::shared_ptr<Piece> piece)
 {
     if (piece == nullptr)
     {
@@ -44,7 +44,7 @@ TerminalGraphic Square::get_graphic() const
 {
     TerminalGraphic graphic;
 
-    const TerminalGraphic empty_square_graphic = { .message = "O", .color = colors::white };
+    const TerminalGraphic empty_square_graphic = { .message = " ", .color = colors::white };
     
     if (!overriding_color.empty())
     {

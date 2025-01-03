@@ -11,6 +11,15 @@ Game::Game()
 void Game::start()
 {
     ui.display_title("Welcome to **the currently unplayable version of** RogueChess!");
+
+    //test code below
+    
+    auto white_pawn = std::make_tuple(PieceFactory::build_pawn(Color::white), 1, 4);
+    auto black_pawn = std::make_tuple(PieceFactory::build_pawn(Color::black), 4, 2);
+
+    std::vector<std::tuple<std::shared_ptr<Piece>, int, int>> pieces_and_locations = {white_pawn, black_pawn};
+    
+    board.set_up(pieces_and_locations);
 }
 
 void Game::next_turn()
