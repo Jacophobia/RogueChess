@@ -23,7 +23,7 @@ public:
         this->rating = rating;
     }
     
-    std::vector<ValidMove> get_valid_moves(Board& board) const;
+    std::vector<ValidMove> get_valid_moves(Board* board) const;
     Color get_color();
     void increment_turn(bool is_piece_moved = false);
     [[nodiscard]] TerminalGraphic get_graphic() const;

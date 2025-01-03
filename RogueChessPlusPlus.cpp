@@ -5,6 +5,7 @@
 #include "UI/UI.h"
 
 int main() {
+    /*
     const std::vector<std::vector<char>> board
     {
         { 'R', 'N', 'B', 'K', 'Q', 'B', 'N', 'R' },
@@ -16,8 +17,11 @@ int main() {
         { 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P' },
         { 'R', 'N', 'B', 'K', 'Q', 'B', 'N', 'R' },
     };
-
+*/
     UI ui;
+
+    Board board(ui);
+    
     ui.display_title("Welcome to RogueChess!");
 
     while (true) {

@@ -19,7 +19,7 @@ public:
 
     void display_title(const std::string& message);
 
-    void display_board(Board& board);
+    void display_board(Board* board);
     void display_board(const std::vector<std::vector<char>>& board);
     void display_shop(Shop& shop);
     void display_inventory(Inventory& inventory);

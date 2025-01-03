@@ -6,13 +6,6 @@
 #include "../Move/PotentialMove.h"
 #include "../Piece/PieceType.h"
 
-Board::Board(UI* ui)
-{
-    this->ui = ui;
-    
-    ui->display_board(squares);
-}
-
 std::tuple<bool, Piece*> Board::try_get_piece(int x, int y)
 {
     if (y >= squares.size() || y < 0)
@@ -56,13 +49,36 @@ void Board::increment_turn(Color current_turn_color)
     }
 }
 
-bool Board::show_valid_moves(int x, int y)
+void Board::show_valid_moves(int x, int y)
 {
-    auto [success, Piece] = try_get_piece(x, y);
+    auto [contains_piece, piece] = try_get_piece(x, y);
 
-    if (success)
+    if (!contains_piece)
     {
-        ui->
+        throw std::exception("error: valid moves for a piece were attempted to be shown, but the selected square did not have a piece");
+    }
+
+    std::vector<ValidMove> valid_moves = piece->get_valid_moves(this);
+
+    for (ValidMove valid_move : valid_moves)
+    {
+        Square square = squares[y + valid_move.delta_y][x + valid_move.delta_x];
+
+        square.override_color(colors::green);
+
+        if (!square.contains_piece())
+        {
+            square.override_symbol("#");
+        }
+    }
+}
+
+void Board::clear_graphical_overrides()
+{
+    for (auto& square_row : squares)
+    for (auto& square : square_row)
+    {
+        square.clear_graphical_overrides();
     }
 }
 
@@ -84,6 +100,11 @@ size_t Board::width() const
 size_t Board::height() const
 {
     return squares.size();
+}
+
+TerminalGraphic Board::get_graphic(int x, int y) const
+{
+    return squares[y][x].get_graphic();
 }
 
 std::vector<Piece*> Board::place_pieces(std::vector<std::tuple<Piece*, int, int>> pieces_and_locations)

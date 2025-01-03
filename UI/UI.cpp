@@ -50,7 +50,7 @@ void UI::display_title(const std::string& message)
     terminal_refresh();
 }
 
-void UI::display_board(Board& board)
+void UI::display_board(Board* board)
 {
     clear(board_section);
 
@@ -77,12 +77,12 @@ void UI::display_board(Board& board)
     print(board_section.x, board_section.y, board_template);
 
     // Iterate over the board and draw each piece
-    for (int y = 0; y < static_cast<int>(board.height()); ++y)
-    for (int x = 0; x < static_cast<int>(board.width()); ++x)
+    for (int y = 0; y < static_cast<int>(board->height()); ++y)
+    for (int x = 0; x < static_cast<int>(board->width()); ++x)
     {
         // Print each piece at the corresponding position
         auto [x_pos, y_pos] = coordinate_to_position(x, y);
-        auto [contains_piece, piece] = board.try_get_piece(x, y);
+        auto [contains_piece, piece] = board->try_get_piece(x, y);
         if (contains_piece)
         {
             print(x_pos, y_pos, piece->get_graphic());

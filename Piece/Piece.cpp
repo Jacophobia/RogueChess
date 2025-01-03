@@ -7,7 +7,7 @@
 
 class Square;
 
-std::vector<ValidMove> Piece::get_valid_moves(Board& board) const
+std::vector<ValidMove> Piece::get_valid_moves(Board* board) const
 {
     std::vector<ValidMove> valid_moves;
 
@@ -29,12 +29,12 @@ std::vector<ValidMove> Piece::get_valid_moves(Board& board) const
             const int checked_delta_x = potential_move.delta_x * i;
             const int checked_delta_y = potential_move.delta_y * i;
 
-            if (!board.is_within_board_boundaries(checked_delta_x, checked_delta_y))
+            if (!board->is_within_board_boundaries(checked_delta_x, checked_delta_y))
             {
                 break;
             }
             
-            auto [is_piece_in_checked_square, checked_piece] = board.try_get_piece(checked_delta_x, checked_delta_y);
+            auto [is_piece_in_checked_square, checked_piece] = board->try_get_piece(checked_delta_x, checked_delta_y);
 
             //condition: there is not a piece in the square, and the move does not require a capture to perform
             if (!is_piece_in_checked_square)
