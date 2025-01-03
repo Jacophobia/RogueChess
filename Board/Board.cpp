@@ -4,8 +4,11 @@
 
 #include "../Square/Square.h"
 #include "../Move/PotentialMove.h"
+#include "../Piece/PieceType.h"
 
-std::tuple<bool, Piece*> Board::try_get_piece(int x, int y)
+Board::Board() : squares(8, std::vector<Square>(8)) { }
+
+std::tuple<bool, std::shared_ptr<Piece>> Board::try_get_piece(int x, int y)
 {
     if (y >= squares.size() || y < 0)
     {
@@ -27,23 +30,67 @@ std::tuple<bool, Piece*> Board::try_get_piece(int x, int y)
 
 bool Board::is_within_board_boundaries(int x, int y) const
 {
-    const bool x_success = (x >= squares.size()) || (x < 0);
-    const bool y_success = (y >= squares[x].size()) || (y < 0);
+    bool x_success = x >= squares.size() || x < 0;
+    bool y_success = y >= squares[x].size() || y < 0;
 
     return x_success && y_success;
 }
 
-void Board::increment_turn()
+//Method is called at the BEGINNING of each player's turn
+void Board::increment_turn(Color current_turn_color)
 {
     for (auto & square_column : squares)
     for (auto & square : square_column)
     {
-        square.increment_turn();
-    }
+        auto [success, piece] = square.try_get_piece();
 
+        if (success && piece->get_color() == current_turn_color)
+        {
+            square.increment_turn();
+        }
+    }
 }
 
-void Board::set_up(std::vector<std::tuple<Piece*, int, int>> pieces_and_locations)
+void Board::show_valid_moves(int x, int y)
+{
+    const char* valid_moves_empty_space_color = colors::green;
+    const char* valid_moves_opponent_space_color = colors::red;
+    
+    auto [contains_piece, piece] = try_get_piece(x, y);
+
+    if (!contains_piece)
+    {
+        throw std::exception("error: valid moves for a piece were attempted to be shown, but the selected square did not have a piece");
+    }
+
+    std::vector<ValidMove> valid_moves = piece->get_valid_moves(this);
+
+    for (ValidMove valid_move : valid_moves)
+    {
+        Square square = squares[y + valid_move.delta_y][x + valid_move.delta_x];
+        
+        if (!square.contains_piece())
+        {
+            square.override_symbol("#");
+            square.override_color(valid_moves_empty_space_color);
+        }
+        else
+        {
+            square.override_color(valid_moves_opponent_space_color);
+        }
+    }
+}
+
+void Board::clear_graphical_overrides()
+{
+    for (auto& square_row : squares)
+    for (auto& square : square_row)
+    {
+        square.clear_graphical_overrides();
+    }
+}
+
+void Board::set_up(std::vector<std::tuple<std::shared_ptr<Piece>, int, int>>& pieces_and_locations)
 {
     place_pieces(pieces_and_locations);
 }
@@ -63,15 +110,20 @@ size_t Board::height() const
     return squares.size();
 }
 
-std::vector<Piece*> Board::place_pieces(std::vector<std::tuple<Piece*, int, int>> pieces_and_locations)
+TerminalGraphic Board::get_graphic(int x, int y) const
 {
-    std::vector<Piece*> removed_pieces;
+    return squares[x][y].get_graphic();
+}
+
+std::vector<std::shared_ptr<Piece>> Board::place_pieces(std::vector<std::tuple<std::shared_ptr<Piece>, int, int>> pieces_and_locations)
+{
+    std::vector<std::shared_ptr<Piece>> removed_pieces;
     
     for (auto & piece_and_location : pieces_and_locations)
     {
         auto [piece, x, y] = piece_and_location;
 
-        Piece* removed_piece = squares[x][y].place_piece(piece);
+        std::shared_ptr<Piece> removed_piece = squares[x][y].place_piece(piece);
 
         if (removed_piece != nullptr)
         {

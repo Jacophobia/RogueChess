@@ -7,7 +7,7 @@
 
 class Square;
 
-std::vector<ValidMove> Piece::get_valid_moves(Board& board) const
+std::vector<ValidMove> Piece::get_valid_moves(Board* board) const
 {
     std::vector<ValidMove> valid_moves;
 
@@ -29,12 +29,12 @@ std::vector<ValidMove> Piece::get_valid_moves(Board& board) const
             const int checked_delta_x = potential_move.delta_x * i;
             const int checked_delta_y = potential_move.delta_y * i;
 
-            if (!board.is_within_board_boundaries(checked_delta_x, checked_delta_y))
+            if (!board->is_within_board_boundaries(checked_delta_x, checked_delta_y))
             {
                 break;
             }
             
-            auto [is_piece_in_checked_square, checked_piece] = board.try_get_piece(checked_delta_x, checked_delta_y);
+            auto [is_piece_in_checked_square, checked_piece] = board->try_get_piece(checked_delta_x, checked_delta_y);
 
             //condition: there is not a piece in the square, and the move does not require a capture to perform
             if (!is_piece_in_checked_square)
@@ -89,13 +89,29 @@ void Piece::increment_turn(const bool is_piece_moved)
 
 PotentialMove Piece::upgrade_potential_move(PotentialMove potential_move) const
 {
-    //NOT IMPLEMENTED
+    // TODO: NOT IMPLEMENTED
     return potential_move;
 }
 
 TerminalGraphic Piece::get_graphic() const
 {
-    return { .message= "P", .color= colors::celestial_blue };
+    const char* graphic_symbol = "P";
+    const char* graphic_color;
+
+    switch (color)
+    {
+    case Color::white:
+        graphic_color = colors::tea_green;
+        break;
+    case Color::black:
+        graphic_color = colors::dark_orange;
+        break;
+    default:
+        graphic_color = colors::red;
+        break;
+    }
+
+    return { .message= graphic_symbol, .color= graphic_color };
 }
 
 PieceType Piece::get_type()
