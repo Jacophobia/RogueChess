@@ -17,10 +17,14 @@ void Game::start()
 
 void Game::test_setup()
 {
-    auto white_pawn = std::make_tuple(PieceFactory::build_pawn(Color::white), 1, 4);
-    auto black_pawn = std::make_tuple(PieceFactory::build_pawn(Color::black), 4, 2);
+    auto white_pawn1 = std::make_tuple(PieceFactory::build_pawn(Color::white), 1, 4);
+    auto white_pawn2 = std::make_tuple(PieceFactory::build_pawn(Color::white), 3, 6);
+    auto black_pawn1 = std::make_tuple(PieceFactory::build_pawn(Color::black), 0, 1);
+    auto black_pawn2 = std::make_tuple(PieceFactory::build_pawn(Color::black), 2, 3);
 
-    std::vector pieces_and_locations = {white_pawn, black_pawn};
+    auto white_queen = std::make_tuple(PieceFactory::build_queen(Color::white), 5, 6);
+
+    std::vector pieces_and_locations = {white_pawn1, black_pawn1, white_pawn2, black_pawn2, white_queen};
     
     board.set_up(pieces_and_locations);
 }
@@ -48,6 +52,12 @@ void Game::next_turn()
         {
             auto [x, y] = ui.get_selected_coordinate();
             ui.display_title(std::format("Selected ({}, {})", x, y));
+
+            if (board.is_within_board_boundaries(x, y))
+            {
+                board.clear_graphical_overrides();
+                board.show_valid_moves(x, y);
+            }
         }
         
         if (key == TK_CLOSE || key == TK_Q || key == TK_ESCAPE)

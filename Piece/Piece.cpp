@@ -7,7 +7,7 @@
 
 class Square;
 
-std::vector<ValidMove> Piece::get_valid_moves(Board* board) const
+std::vector<ValidMove> Piece::get_valid_moves(Board* board, int x, int y) const
 {
     std::vector<ValidMove> valid_moves;
 
@@ -29,44 +29,62 @@ std::vector<ValidMove> Piece::get_valid_moves(Board* board) const
             const int checked_delta_x = potential_move.delta_x * i;
             const int checked_delta_y = potential_move.delta_y * i;
 
-            if (!board->is_within_board_boundaries(checked_delta_x, checked_delta_y))
+            const int checked_x = checked_delta_x + x;
+            const int checked_y = checked_delta_y + y;
+            
+            if (!board->is_within_board_boundaries(checked_x, checked_y))
             {
                 break;
             }
             
-            auto [is_piece_in_checked_square, checked_piece] = board->try_get_piece(checked_delta_x, checked_delta_y);
+            auto [is_there_a_piece_in_the_checked_square, checked_piece] = board->try_get_piece(checked_x, checked_y);
 
             //condition: there is not a piece in the square, and the move does not require a capture to perform
-            if (!is_piece_in_checked_square)
-            if (!potential_move.is_only_valid_on_capture)
+            if (!is_there_a_piece_in_the_checked_square)
             {
-                //move is valid, now describing post conditions for move
-                ValidMove valid_move;
-                
-                if (!potential_move.is_only_chainable_on_capture)
+                if (!potential_move.is_only_valid_on_capture)
                 {
-                    valid_move.chains_remaining = potential_move.chains_added;
+                    //move is valid, now describing post conditions for move
+                    ValidMove valid_move;
+                    
+                    if (!potential_move.is_only_chainable_on_capture)
+                    {
+                        valid_move.chains_remaining = potential_move.chains_added;
+                    }
+
+                    valid_move.delta_x = checked_delta_x;
+                    valid_move.delta_y = checked_delta_y;
+
+                    valid_moves.push_back(valid_move);
+                }
+            }
+            else if (potential_move.can_capture)
+            {
+                if (checked_piece->get_color() == color && potential_move.can_pass_through_pieces == true)
+                {
+                    continue;
                 }
 
-                valid_move.delta_x = checked_delta_x;
-                valid_move.delta_y = checked_delta_y;
+                if (checked_piece->get_color() != color)
+                {
+                    //move is valid, now describing post conditions for move
+                    ValidMove valid_move;
 
-                valid_moves.push_back(valid_move);
-                
-                continue;
-            }
-            
-            if (checked_piece->get_color() == Color::black)
-            {
-                //move is valid, now describing post conditions for move
-                ValidMove valid_move;
+                    valid_move.chains_remaining = potential_move.chains_added;
 
-                valid_move.chains_remaining = potential_move.chains_added;
+                    valid_move.delta_x = checked_delta_x;
+                    valid_move.delta_y = checked_delta_y;
 
-                valid_move.delta_x = checked_delta_x;
-                valid_move.delta_y = checked_delta_y;
+                    valid_moves.push_back(valid_move);
+                    
+                    if (potential_move.can_pass_through_pieces == true)
+                    {
+                        continue;
+                    }
 
-                valid_moves.push_back(valid_move);
+                }
+
+                break;
             }
         }
     }
@@ -95,7 +113,7 @@ PotentialMove Piece::upgrade_potential_move(PotentialMove potential_move) const
 
 TerminalGraphic Piece::get_graphic() const
 {
-    const char* graphic_symbol = "P";
+    const char* graphic_symbol = symbol.c_str();
     const char* graphic_color;
 
     switch (color)
