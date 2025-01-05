@@ -2,8 +2,11 @@
 
 struct ValidMove
 {
-    int delta_x = 0;
-    int delta_y = 0;
+    int x = 0;
+    int y = 0;
+
+    int initial_x = 0;
+    int initial_y = 0;
 
     int chains_remaining = 0;
 

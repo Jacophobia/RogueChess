@@ -17,7 +17,7 @@ public:
     bool is_game_over();
     void close();
 private:
-    void select_piece(int x, int y);
+    std::vector<ValidMove> select_piece(int x, int y, bool should_valid_moves_be_shown);
 
     void test_setup();
     

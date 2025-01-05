@@ -52,8 +52,11 @@ std::vector<ValidMove> Piece::get_valid_moves(Board* board, int x, int y) const
                         valid_move.chains_remaining = potential_move.chains_added;
                     }
 
-                    valid_move.delta_x = checked_delta_x;
-                    valid_move.delta_y = checked_delta_y;
+                    valid_move.x = checked_delta_x + x;
+                    valid_move.y = checked_delta_y + y;
+
+                    valid_move.initial_x = x;
+                    valid_move.initial_y = y;
 
                     valid_moves.push_back(valid_move);
                 }
@@ -72,8 +75,11 @@ std::vector<ValidMove> Piece::get_valid_moves(Board* board, int x, int y) const
 
                     valid_move.chains_remaining = potential_move.chains_added;
 
-                    valid_move.delta_x = checked_delta_x;
-                    valid_move.delta_y = checked_delta_y;
+                    valid_move.x = checked_delta_x + x;
+                    valid_move.y = checked_delta_y + y;
+
+                    valid_move.initial_x = x;
+                    valid_move.initial_y = y;
 
                     valid_moves.push_back(valid_move);
                     

@@ -54,27 +54,30 @@ void Board::increment_turn(Color current_turn_color)
     }
 }
 
-bool Board::show_valid_moves(int x, int y)
+std::vector<ValidMove> Board::get_valid_moves(int x, int y)
 {
-    std::cout << "hey, you made it to show_valid_moves!" << "\n";
-    
-    const char* valid_moves_empty_space_color = colors::green;
-    const char* valid_moves_opponent_space_color = colors::red;
-    
     auto [contains_piece, piece] = try_get_piece(x, y);
 
     if (!contains_piece)
     {
-        return false;
+        return {};
         //throw std::exception("error: valid moves for a piece were attempted to be shown, but the selected square did not have a piece");
     }
 
-    std::vector<ValidMove> valid_moves = piece->get_valid_moves(this, x, y);
+    return piece->get_valid_moves(this, x, y);
 
-    //above obtains the valid squares to move to, below draws the squares
+}
+
+bool Board::show_valid_moves(int x, int y)
+{
+    const char* valid_moves_empty_space_color = colors::green;
+    const char* valid_moves_opponent_space_color = colors::red;
+    
+    auto valid_moves = get_valid_moves(x, y);
+    
     for (ValidMove valid_move : valid_moves)
     {
-        Square& square = squares[y + valid_move.delta_y][x + valid_move.delta_x];
+        Square& square = squares[valid_move.y][valid_move.x];
         
         if (!square.contains_piece())
         {
@@ -97,6 +100,22 @@ void Board::clear_graphical_overrides()
     {
         square.clear_graphical_overrides();
     }
+}
+
+std::tuple<bool, std::shared_ptr<Piece>> Board::move_piece(int initial_x, int initial_y, int final_x, int final_y)
+{
+    auto moved_piece = squares[initial_y][initial_x].remove_piece();
+
+    if (moved_piece == nullptr)
+    {
+        throw std::exception("piece was attempted to be moved, but piece was null");
+    }
+
+    auto captured_piece = squares[final_y][final_x].place_piece(moved_piece);
+
+    bool is_there_a_captured_piece = captured_piece != nullptr;
+
+    return std::make_tuple(is_there_a_captured_piece, captured_piece);
 }
 
 void Board::set_up(std::vector<std::tuple<std::shared_ptr<Piece>, int, int>>& pieces_and_locations)

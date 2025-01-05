@@ -18,6 +18,7 @@ public:
     std::tuple<bool, std::shared_ptr<Piece>> try_get_piece();
     void increment_turn();
     std::shared_ptr<Piece> place_piece(std::shared_ptr<Piece> piece);
+    std::shared_ptr<Piece> remove_piece();
     bool contains_piece() const;
 
     //graphics
