@@ -7,6 +7,7 @@ struct PotentialMove
 
     bool is_only_valid_on_first_move = false;
     bool is_only_valid_on_capture = false;
+    bool can_capture = true;
 
     //for infinite repetitions, set to 0
     int repetitions_limit = 1;

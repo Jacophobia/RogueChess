@@ -18,7 +18,10 @@ public:
     std::tuple<bool, std::shared_ptr<Piece>> try_get_piece(int x, int y);
     bool is_within_board_boundaries(int x, int y) const;
     void increment_turn(Color current_turn_color);
-    void show_valid_moves(int x, int y);
+    std::tuple<bool, std::shared_ptr<Piece>> move_piece(int initial_x, int initial_y, int final_x, int final_y);
+    std::vector<ValidMove> get_valid_moves(int x, int y);
+    
+    bool show_valid_moves(int x, int y);
     void clear_graphical_overrides();
 
     void set_up(std::vector<std::tuple<std::shared_ptr<Piece>, int, int>>& pieces_and_locations);

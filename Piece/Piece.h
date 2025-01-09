@@ -15,14 +15,16 @@ class Piece
 {
 public:
     Piece(Piece&) = delete;
-    Piece(Color color, const std::vector<PotentialMove>& potential_moves, int rating)
+    Piece(Color color, const std::vector<PotentialMove>& potential_moves, int rating, const std::string& symbol)
     {
         this->color = color;
         this->potential_moves = potential_moves;
         this->rating = rating;
+        this->symbol = symbol;
     }
+    Piece() = default;
     
-    std::vector<ValidMove> get_valid_moves(Board* board) const;
+    std::vector<ValidMove> get_valid_moves(Board* board, int x, int y) const;
     Color get_color();
     void increment_turn(bool is_piece_moved = false);
     [[nodiscard]] TerminalGraphic get_graphic() const;
@@ -31,6 +33,7 @@ private:
     std::vector<PotentialMove> potential_moves;
     std::vector<PieceUpgrade> upgrades;
     Color color = Color::white;
+    std::string symbol = "P";
     bool has_moved = false;
     int rating = 1;
 

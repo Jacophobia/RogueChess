@@ -34,6 +34,13 @@ std::shared_ptr<Piece> Square::place_piece(std::shared_ptr<Piece> piece)
     return old_piece;
 }
 
+std::shared_ptr<Piece> Square::remove_piece()
+{
+    auto removed_piece = piece;
+    piece = nullptr;
+    return removed_piece;
+}
+
 bool Square::contains_piece() const
 {
     return piece != nullptr;
